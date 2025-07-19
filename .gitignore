@@ -1,0 +1,38 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.so
+*.pyd
+*.dll
+*.cpython-*
+
+# Environment & secrets
+.env
+.env.*
+.venv/
+venv/
+
+# Poetry
+poetry.lock
+pyproject.toml
+
+# Configs et scripts locaux
+setup.sh
+config.toml
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs / build / runtime
+*.log
+*.tmp
+*.bak
