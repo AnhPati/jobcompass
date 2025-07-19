@@ -19,6 +19,7 @@ pyproject.toml
 # Configs et scripts locaux
 setup.sh
 config.toml
+secrets.toml
 
 # OS
 .DS_Store
