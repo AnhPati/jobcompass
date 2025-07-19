@@ -4,7 +4,7 @@ import streamlit as st
 def authenticated_menu():
     # Show a navigation menu for authenticated users
     st.sidebar.page_link("pages/1_Home.py", label="Home")
-    st.sidebar.page_link("pages/2_Dashboard.py", label="Dashboard")
+    st.sidebar.page_link("pages/App.py", label="JobCompass")
     st.sidebar.page_link("Login.py", label="Logout")
 
 
