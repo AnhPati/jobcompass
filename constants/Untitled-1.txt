@@ -1,0 +1,25 @@
+1. [Blue 1] - Usage : Backgrounds / Pairs with : Steps 11, 12 text / Solid color : #F3F4F6
+2. [Blue 2] - Usage : Backgrounds / Pairs with : Steps 11, 12 text / Solid color : #ECF0F6
+3. [Blue 3] - Usage : Interactive components / Pairs with : Steps 11 labels, Step 12 text / Solid color : #E0E9F5
+4. [Blue 4] - Usage : Interactive components / Pairs with : Steps 11, 12 labels / Solid color : #D1E1F8
+5. [Blue 5] - Usage : Interactive components / Pairs with : Step 12 labels / Solid color : #C0D7F8
+6. [Blue 6] - Usage : Borders and separators / Pairs with : Steps 1–5 backgrounds / Solid color : #ACC9F3
+7. [Blue 7] - Usage : Borders and separators / Pairs with : Steps 1–5 backgrounds / Solid color : #92B7EC
+8. [Blue 8] - Usage : Borders, focus rings / Pairs with : Steps 1–5 backgrounds / Solid color : #6D9FE5
+9. [Blue 9] - Usage : Solid backgrounds, buttons / Pairs with : White text / Solid color : #2F80ED
+10. [Blue 10] - Usage : Solid backgrounds, buttons / Pairs with : White text / Solid color : #2073DE
+11. [Blue 11] - Usage : Secondary text, links / Pairs with : Background colors / Solid color : #0562CC
+12. [Blue 12] - Usage : High-contrast text / Pairs with : Background colors / Solid color : #0F3262
+
+1. [Gray 1] - Usage : Backgrounds / Pairs with : Steps 11, 12 text / Solid color : #FFF2E8
+2. [Gray 2] - Usage : Backgrounds / Pairs with : Steps 11, 12 text / Solid color : #FDECE0
+3. [Gray 3] - Usage : Interactive components / Pairs with : Steps 11 labels, Step 12 text / Solid color : #FBE1CE
+4. [Gray 4] - Usage : Interactive components / Pairs with : Steps 11, 12 labels / Solid color : #FCD6B9
+5. [Gray 5] - Usage : Interactive components / Pairs with : Step 12 labels / Solid color : #F7CDAC
+6. [Gray 6] - Usage : Borders and separators / Pairs with : Steps 1–5 backgrounds / Solid color : #F8C196
+7. [Gray 7] - Usage : Borders and separators / Pairs with : Steps 1–5 backgrounds / Solid color : #F6B27B
+8. [Gray 8] - Usage : Borders, focus rings / Pairs with : Steps 1–5 backgrounds / Solid color : #F09748
+9. [Gray 9] - Usage : Solid backgrounds, buttons / Pairs with : White text / Solid color : #C56200
+10. [Gray 10] - Usage : Solid backgrounds, buttons / Pairs with : White text / Solid color : #B65A00
+11. [Gray 11] - Usage : Secondary text, links / Pairs with : Background colors / Solid color : #8B4100
+12. [Gray 12] - Usage : High-contrast text / Pairs with : Background colors / Solid color : #3A1300

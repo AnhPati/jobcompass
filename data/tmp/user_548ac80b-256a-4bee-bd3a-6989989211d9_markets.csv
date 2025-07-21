@@ -1,0 +1,63 @@
+Date|Type|Marché|Nombre d'annonces|Notes|Titre|Intitulé|TJM|Séniorité|Technos principales|Technos secondaires|Compétences principales|Compétences secondaires|Secteur|Localisation|Rythme|Entreprise|Contact|Lien|Sophistication du marché|Capitalisation de l'apprentissage|Fiabilité
+2025-04-20|Marché|Développeur React|12.0||||||||||||||||||
+2025-04-21|Marché|Développeur React|15.0||||||||||||||||||
+2025-04-22|Marché|Développeur React|13.0||||||||||||||||||
+2025-04-23|Marché|Développeur React|14.0||||||||||||||||||
+2025-04-24|Marché|Développeur React|16.0||||||||||||||||||
+2025-04-25|Marché|Développeur React|18.0||||||||||||||||||
+2025-04-26|Marché|Développeur React|20.0||||||||||||||||||
+2025-04-27|Marché|Développeur React|19.0||||||||||||||||||
+2025-04-28|Marché|Développeur React|14.0||||||||||||||||||
+2025-04-20|Marché|Chef de projet IT|9.0||||||||||||||||||
+2025-04-21|Marché|Chef de projet IT|11.0||||||||||||||||||
+2025-04-22|Marché|Chef de projet IT|8.0||||||||||||||||||
+2025-04-23|Marché|Chef de projet IT|10.0||||||||||||||||||
+2025-04-24|Marché|Chef de projet IT|9.0||||||||||||||||||
+2025-04-25|Marché|Chef de projet IT|12.0||||||||||||||||||
+2025-04-26|Marché|Chef de projet IT|11.0||||||||||||||||||
+2025-04-27|Marché|Chef de projet IT|10.0||||||||||||||||||
+2025-04-28|Marché|Chef de projet IT|9.0||||||||||||||||||
+2025-04-20|Marché|Data Analyst|7.0||||||||||||||||||
+2025-04-21|Marché|Data Analyst|8.0||||||||||||||||||
+2025-04-22|Marché|Data Analyst|9.0||||||||||||||||||
+2025-04-23|Marché|Data Analyst|7.0||||||||||||||||||
+2025-04-24|Marché|Data Analyst|6.0||||||||||||||||||
+2025-04-25|Marché|Data Analyst|8.0||||||||||||||||||
+2025-04-26|Marché|Data Analyst|7.0||||||||||||||||||
+2025-04-27|Marché|Data Analyst|9.0||||||||||||||||||
+2025-04-28|Marché|Data Analyst|8.0||||||||||||||||||
+2025-04-20|Offre|Développeur React||||Développeur React|500.0|3 ans|React|Node.js,TypeScript|Développement web,Frontend|Tests unitaires,CI/CD|Tech|Paris|Hybride|TechCorp|Julie Durand|https://exemple.com/offre1|||
+2025-04-21|Offre|Développeur Python||||Développeur Python|550.0|5 ans|Python|Django,Flask|Architecture API,Programmation orientée objet|Docker,Tests automatisés|Finance|Lyon|Distanciel|FinServe|Jean Martin|https://exemple.com/offre2|||
+2025-04-22|Offre|Data Analyst||||Data Analyst|400.0|2 ans|SQL|Power BI,Python|Analyse de données,Visualisation|Statistiques,Reporting|Retail|Nantes|Présentiel|DataWorks|Alice Bernard|https://exemple.com/offre3|||
+2025-04-23|Offre|Chef de projet IT||||Chef de projet IT|600.0|7 ans|Jira|Confluence,MS Project|Gestion de projet,Suivi budgétaire|Agilité,Communication|Énergie|Bordeaux|Hybride|GreenIT|Paul Lefevre|https://exemple.com/offre4|||
+2025-04-24|Offre|Développeur Fullstack||||Développeur Fullstack|520.0|4 ans|JavaScript|React,Node.js|Développement web,Intégration continue|Tests end-to-end,UX Design|Tech|Remote|Distanciel|DevCorp|Claire Moreau|https://exemple.com/offre5|||
+2025-04-25|Offre|Développeur React||||Développeur React|510.0|3 ans|React|Next.js,Redux|SPA,Composants réutilisables|Accessibilité,Responsive Design|Tech|Marseille|Hybride|WebInnov|Lucas Denis|https://exemple.com/offre6|||
+2025-04-26|Offre|Développeur React||||Développeur React|495.0|2 ans|React|TypeScript,Jest|Hooks,Composants fonctionnels|Tests,Git|Tech|Lille|Présentiel|DevSolutions|Marie Lefort|https://exemple.com/offre7|||
+2025-04-27|Offre|Développeur React||||Développeur React|530.0|4 ans|React|Node.js,MongoDB|Fullstack JS,REST API|NoSQL,TDD|Tech|Toulouse|Distanciel|NextGenApps|Hugo Marchand|https://exemple.com/offre8|||
+2025-04-28|Offre|Chef de projet IT||||Chef de projet IT|620.0|6 ans|Trello|Slack,GitLab|Gestion Agile,Pilotage technique|Collaboration,Outils numériques|BTP|Nice|Hybride|Constructix|Sophie Laurent|https://exemple.com/offre9|||
+2025-04-28|Offre|Chef de projet IT||||Chef de projet IT|630.0|8 ans|Jira|Notion,Asana|Coordination d'équipe,Cadrage projet|Suivi planning,Conduite du changement|Tech|Paris|Présentiel|InnoPlan|Marc Renaud|https://exemple.com/offre10|||
+2025-04-28|Offre|Chef de projet IT||||Chef de projet IT|610.0|5 ans|MS Project|Confluence,SharePoint|Reporting,Gestion planning|Risques,Communication transverse|Santé|Lyon|Distanciel|Meditech|Claire Blanchard|https://exemple.com/offre11|||
+2025-04-28|Offre|Data Analyst||||Data Analyst|420.0|3 ans|R|Tableau,SQL|Analyse statistique,Nettoyage de données|Modélisation,R scripts|Retail|Bordeaux|Hybride|DataHub|Thomas Garnier|https://exemple.com/offre12|||
+2025-04-28|Offre|Data Analyst||||Data Analyst|450.0|4 ans|Python|Pandas,Matplotlib|Exploration de données,Modélisation prédictive|Visualisation,Pipeline de données|Finance|Paris|Présentiel|FinSight|Julie Morin|https://exemple.com/offre13|||
+2025-04-28|Offre|Data Analyst||||Data Analyst|430.0|3 ans|SQL|Power BI,Excel|Dashboards,Requêtes SQL|Nettoyage,Data wrangling|Assurance|Nantes|Distanciel|AssurData|Pierre Robert|https://exemple.com/offre14|||
+2025-04-28|Offre|Développeur React||||Développeur React|520.0|3 ans|React|Storybook,GraphQL|Design system,Query language|CI/CD,Tests fonctionnels|Tech|Paris|Hybride|WebLab|Emma Morel|https://exemple.com/offre15|||
+2025-05-13|Offre|Développeur React|||Développeur React Senior|Développeur React Senior|600.0|3|Typescript, NodeJS|NodeJS|||||Présentiel|||https://exemple.com/offre2|||
+2025-06-05|Marché|Dev test|77.0||||||||||||||||||
+2025-06-06|Marché|Dev test|3.0||||||||||||||||||
+2025-06-06|Marché|Dev Pentest|7.0||||||||||||||||||
+2025-06-05|Marché|TEST|1.0||||||||||||||||||
+2025-06-05|Marché|COrrecteur|3.0||||||||||||||||||
+2025-06-14|Marché|Dev Pentest|5.0||||||||||||||||||
+2025-06-14|Marché|TEST|1.0||||||||||||||||||
+2025-06-23|Marché|TEST|11.0||||||||||||||||||
+2025-06-19|Marché|Dev test|6.0||||||||||||||||||
+2025-06-14|Marché|Expert|4.0||||||||||||||||||
+2025-06-05|Marché|Chef de projet IT|2.0||||||||||||||||||
+2025-06-05|Offre|Développeur React|||Dev react|Expert|500.0|4|||||||Distanciel|||example.com|||
+2025-06-23|Marché|Expert React|2.0|Test|||||||||||||||||
+2025-07-21|Marché|Expert React|11||||||||||||||||||
+2025-07-21|Marché|Dev Pentest|2||||||||||||||||||
+2025-07-21|Marché|Développeur React|40||||||||||||||||||
+2025-07-21|Offre|Développeur React|||Expert React||550|3|TypeScript, ReactJS|NextJS|API|Figma|Bancaire|Pékin|Distanciel||Jean|example.com|||
+2025-07-21|Marché|Dev test|4||||||||||||||||||
+2025-07-21|Marché|Chef de projet IT|7||||||||||||||||||

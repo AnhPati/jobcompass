@@ -1,202 +1,158 @@
 import streamlit as st
-import streamlit_shadcn_ui as ui
-from datetime import datetime, timedelta
-from streamlit_supabase_auth import login_form, logout_button
-import random
-import pandas as pd
-from streamlit_lightweight_charts import renderLightweightCharts
-import streamlit_lightweight_charts.dataSamples as data
-from menu import menu_with_redirect
-# import stripe
-# from server import ensure_user_in_database, fetch_user_subscription, get_user_details, fetch_user_projects, display_subscription_info
+from utils.helpers import is_user_authenticated
+from tabs.home import render_home
+from tabs.market_analysis import render_market_analysis
+from tabs.offer_dissection import render_offer_dissection
+from tabs.compass import render_compass
+from components.csv_uploader import csv_uploader
+from config.settings import get_market_offers_remote_path, get_market_offers_local_file
+from services.cache.geocoding_cache import load_cache
+from services.storage.market_file import ensure_market_file_exists
+from design.inject_theme import inject_theme
+from services.debug.debug_auth import debug_auth
+from services.debug.debug_supabase_uid import debug_supabase_auth
+import time
 
-# Initialization with Supabase credentials
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
-
-test_mode = st.secrets["testing_mode"]
-# if test_mode == "true":
-#     stripe.api_key = st.secrets["stripe_api_key_test"]
-#     print("Testing mode.")
-# elif test_mode == "false":
-#     stripe.api_key = st.secrets["stripe_api_key"]
-#     print("Live mode.")
-
-st.set_page_config(
-    page_title="User Dashboard",
-    page_icon="🧑🏻‍💻",
-    layout="centered"
+# ✅ Import du service de synchronisation
+from services.sync.sync_service import (
+    initialize_sync_state, 
+    should_auto_sync, 
+    sync_to_cloud, 
+    get_sync_status_display,
+    sync_on_disconnect
 )
-menu_with_redirect()
 
-def generate_fake_data():
-    token_usage = random.randint(1000, 10000)
-    storage_used = round(random.uniform(10.0, 50.0), 2)
-    project_count = random.randint(1, 10)
-    max_token_usage = 15000
-    max_storage = 100
-    max_projects = 20
-    return token_usage, storage_used, project_count, max_token_usage, max_storage, max_projects
+# 🔹 Config Streamlit & Garde de sécurité
+st.set_page_config(page_title="JobCompass", layout="wide")
+inject_theme()
 
-def generate_fake_project_data(num_projects):
-    projects = []
-    for i in range(num_projects):
-        project = {
-            'name': f'Project {i+1}',
-            'created_at': datetime.now() - timedelta(days=random.randint(1, 100))
-        }
-        projects.append(project)
-    return projects
+if not is_user_authenticated():
+    st.switch_page("pages/Login.py")
 
-def main():
-    # Configure Supabase authentication
-    session = login_form(url=SUPABASE_URL, apiKey=SUPABASE_KEY, providers=["github", "google"])
-
-    if session:
-        user_id = session['user']['id']
-        user_email = session['user']['email']
-        user_name = session['user']['user_metadata']['name']
-        
-        # Ensure user exists in database
-        # ensure_user_in_database(user_id, user_email, user_name)
-
-        st.header("Dashboard")
-
-        # Toggle button to simulate subscription status
-        subscribed = st.sidebar.checkbox("Toggle Subscription Status")
-
-        if subscribed:
-            st.success("User is subscribed")
-            # Fetch user details and subscription info if subscribed
-            # user_details = get_user_details(user_email)
-            # subscription_info = fetch_user_subscription(user_email)
-
-            # Simulate user details and subscription info
-            user_details = {
-                'tokenUsage': 5000,
-                'storageUsed': 25.5,
-            }
-            subscription_info = [{
-                'tokenLimit': 15000,
-                'storageLimit': 100,
-                'projectLimit': 20
-            }]
-
-            token_usage = user_details.get('tokenUsage', 0)
-            storage_used = user_details.get('storageUsed', 0)
-            projects = generate_fake_project_data(5)  # Replace with: fetch_user_projects(user_email)
-            project_count = len(projects)
-
-            max_token_usage = subscription_info[0]['tokenLimit']
-            max_storage = subscription_info[0]['storageLimit']
-            max_projects = subscription_info[0]['projectLimit']
-
-            cols = st.columns(3)
-            with cols[0]:
-                ui.metric_card(
-                    title="Token Usage",
-                    content=f"{token_usage}/{max_token_usage}",
-                    description="Your token consumption",
-                    key="token_usage"
-                )
-            with cols[1]:
-                ui.metric_card(
-                    title="Storage Used",
-                    content=f"{storage_used} GB / {max_storage} GB",
-                    description="Your storage usage",
-                    key="storage_usage"
-                )
-            with cols[2]:
-                ui.metric_card(
-                    title="Projects",
-                    content=f"{project_count}/{max_projects}",
-                    description="Number of projects",
-                    key="project_count"
-                )
-            
-            st.subheader("Project Details")
-            for project in projects:
-                st.write(f"**{project['name']}** - Created at: {project['created_at']}")
-            
-            # display_subscription_info(user_email)
-        else:
-            st.warning("User is not subscribed")
-            # Generate fake data if not subscribed
-            token_usage, storage_used, project_count, max_token_usage, max_storage, max_projects = generate_fake_data()
-            cols = st.columns(3)
-            with cols[0]:
-                ui.metric_card(
-                    title="Token Usage",
-                    content=f"25/100",
-                    description="Your token consumption",
-                    key="token_usage"
-                )
-            with cols[1]:
-                ui.metric_card(
-                    title="Storage Used",
-                    content=f"1.7 GB / 5 GB",
-                    description="Your storage usage",
-                    key="storage_usage"
-                )
-            with cols[2]:
-                ui.metric_card(
-                    title="Projects",
-                    content=f"2/3",
-                    description="Number of projects",
-                    key="project_count"
-                )
+@st.fragment
+def sync_status_fragment(user_id: str):
+    """Fragment pour le statut et contrôles de synchronisation"""
+    
+    col1, col2 = st.columns([1, 1])
+    
+    with col1:
+        # Statut de synchronisation
+        status_icon, status_message = get_sync_status_display()
+        st.write(f"{status_icon} {status_message}")
+    
+    with col2:
+        # Bouton de synchronisation manuelle
+        if st.button("☁️ Sync", help="Synchroniser avec le cloud", key="manual_sync_fragment"):
+            with st.spinner("Synchronisation..."):
+                success = sync_to_cloud(force=True)
+                if success:
+                    st.success("✅ Synchronisé!", icon="✅")
+                else:
+                    st.error("❌ Erreur sync", icon="❌")
                 
-            st.subheader("Project Details")
-            projects = generate_fake_project_data(2)
-            for project in projects:
-                st.write(f"**{project['name']}** - Created at: {project['created_at']}")
+                # Recharger seulement ce fragment
+                time.sleep(0.5)
+                st.rerun(scope="fragment")
 
-        st.subheader("Token Usage Chart")
-        chartOptions = {
-            "layout": {
-                "textColor": 'black',
-                "background": {
-                    "type": 'solid',
-                    "color": 'white'
-                }
-            }
-        }
+@st.fragment
+def csv_uploader_header_fragment(local_csv_path: str, remote_csv_path: str):
+    """Fragment pour l'upload CSV header - se recharge indépendamment"""
+    
+    csv_uploader(
+        filepath=local_csv_path,
+        uploader_key="header_csv_controls_fragment",
+        firebase_path=remote_csv_path,
+        inline=True
+    )
 
-        renderLightweightCharts([
-            {
-                "chart": chartOptions,
-                "series": [{
-                    "type": 'Area',
-                    "data": data.seriesMultipleChartArea01,
-                    "options": {}
-                }],
-            }
-        ], 'area')
+@st.fragment
+def sync_details_sidebar_fragment():
+    """Fragment pour les détails de sync dans la sidebar"""
+    
+    if 'sync_state' in st.session_state:
+        sync_state = st.session_state.sync_state
+        st.write(f"**Actions:** {sync_state['actions_count']}/10")
+        
+        if sync_state['last_sync_time']:
+            last_sync = sync_state['last_sync_time'].strftime("%H:%M")
+            st.write(f"**Dernière sync:** {last_sync}")
+        else:
+            st.write("**Dernière sync:** Jamais")
+            
+        # Barre de progression
+        progress = min(sync_state['actions_count'] / 10, 1.0)
+        st.progress(progress, text="Auto-sync:")
 
-        st.subheader("Data Tables")
-        token_usage_data = {
-            'Token Usage': [token_usage],
-            'Max Token Usage': [max_token_usage]
-        }
-        storage_data = {
-            'Storage Used (GB)': [storage_used],
-            'Max Storage (GB)': [max_storage]
-        }
-        projects_data = {
-            'Project Count': [project_count],
-            'Max Projects': [max_projects]
-        }
+@st.fragment
+def csv_uploader_sidebar_fragment(local_csv_path: str, remote_csv_path: str):
+    """Fragment pour l'upload CSV sidebar - se recharge indépendamment"""
+    
+    csv_uploader(
+        filepath=local_csv_path,
+        title="Données Offres & Marché", 
+        uploader_key="sidebar_data_controls_fragment",
+        firebase_path=remote_csv_path
+    )
 
-        st.table(pd.DataFrame(token_usage_data))
-        st.table(pd.DataFrame(storage_data))
-        st.table(pd.DataFrame(projects_data))
+def app():
+    # 🔹 Identifiants utilisateur & chemins
+    user_id = st.session_state.user["id"]
+    
+    # ✅ Initialiser le service de synchronisation
+    initialize_sync_state(user_id)
+    
+    # ✅ Vérifier si une sync automatique est nécessaire (silencieuse)
+    if should_auto_sync():
+        sync_to_cloud(auto=True)  # Sans spinner pour ne pas perturber l'UX
+    
+    # ✅ CORRECTION : Distinction claire entre chemin distant et local
+    remote_csv_path = get_market_offers_remote_path(user_id)  # Ex: "123/markets.csv"
+    local_csv_path = get_market_offers_local_file(user_id)    # Ex: "data/tmp/user_123_markets.csv"
+    
+    # 🔹 Crée ou télécharge le fichier CSV si besoin
+    ensure_market_file_exists(user_id)
 
-        # Sidebar with logout
-        with st.sidebar:
-            st.markdown(f"*Welcome **{session['user']['email']}***")
-            if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY):
-                st.session_state['user'] = None
-                st.experimental_rerun()
+    # 🔹 Cache géocodage
+    if "geocoded_locations_cache" not in st.session_state:
+        st.session_state.geocoded_locations_cache = load_cache()
 
-if __name__ == "__main__":
-    main()
+    # ✅ Header avec fragments - Plus de rechargement complet !
+    col1, col2 = st.columns([3, 1])
+    
+    with col1:
+        csv_uploader_header_fragment(local_csv_path, remote_csv_path)
+    
+    with col2:
+        sync_status_fragment(user_id)
+
+    # 🔹 Interface principale
+    st.title("JobCompass")
+    
+    # 🔍 DEBUG : Sections de debug (à supprimer en production)
+    debug_auth()
+    debug_supabase_auth()
+    
+    with st.sidebar:
+        # ✅ Informations de synchronisation dans la sidebar avec fragment
+        st.markdown("---")
+        st.markdown("### 🔄 Synchronisation")
+        
+        sync_details_sidebar_fragment()
+        
+        st.markdown("---")
+        
+        csv_uploader_sidebar_fragment(local_csv_path, remote_csv_path)
+
+    # Les onglets restent normaux (pas besoin de fragment ici)
+    tabs = st.tabs(["🏠 Accueil", "📈 Analyse des marchés", "📝 Dissection des offres", "🧭 Boussole"])
+    with tabs[0]: render_home()
+    with tabs[1]: render_market_analysis()  # Maintenant avec fragments internes !
+    with tabs[2]: render_offer_dissection()  # Maintenant avec fragments internes !
+    with tabs[3]: render_compass()  # Maintenant avec fragments internes !
+
+# ✅ Hook de déconnexion (si possible dans votre architecture)
+def on_user_disconnect():
+    """Appelé lors de la déconnexion utilisateur"""
+    sync_on_disconnect()
+
+app()

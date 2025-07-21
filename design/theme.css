@@ -1,0 +1,277 @@
+/* ========================================
+💅 Fonts & Variables
+======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;600&display=swap');
+
+:root {
+    /* 🔵 Blue scale */
+    --blue-1: #F3F4F6;
+    --blue-2: #ECF0F6;
+    --blue-3: #E0E9F5;
+    --blue-4: #D1E1F8;
+    --blue-5: #C0D7F8;
+    --blue-6: #ACC9F3;
+    --blue-7: #92B7EC;
+    --blue-8: #6D9FE5;
+    --blue-9: #2F80ED;
+    --blue-10: #2073DE;
+    --blue-11: #0562CC;
+    --blue-12: #0F3262;
+
+    /* 🟠 Orange scale */
+    --orange-1: #FFF2E8;
+    --orange-2: #FDECE0;
+    --orange-3: #FBE1CE;
+    --orange-4: #FCD6B9;
+    --orange-5: #F7CDAC;
+    --orange-6: #F8C196;
+    --orange-7: #F6B27B;
+    --orange-8: #F09748;
+    --orange-9: #C56200;
+    --orange-10: #B65A00;
+    --orange-11: #8B4100;
+    --orange-12: #3A1300;
+
+    /* 🎨 Derived theme colors */
+    --color-primary: var(--blue-9);
+    --color-primary-hover: var(--blue-10);
+    --color-secondary: var(--orange-9);
+    --color-secondary-hover: var(--orange-10);
+
+    --color-danger: #e53935;
+    --color-warning: var(--orange-3);
+    --color-info: var(--blue-3);
+
+    --color-text: var(--orange-12);
+    --color-text-secondary: var(--orange-11);
+
+    --color-background: var(--blue-1);
+    --color-surface: var(--blue-2);
+    --color-surface-alt: var(--orange-2);
+
+    --color-border: var(--orange-6);
+    --color-border-strong: var(--blue-8);
+
+    --table-header-bg: var(--orange-10);
+    --table-header-text: white;
+    --table-row-even: var(--blue-2);
+    --table-row-odd: var(--orange-2);
+
+    --font-family: 'Lato', sans-serif;
+    --radius: 6px;
+    --transition: 0.2s ease-in-out;
+}
+
+/* ========================================
+🌐 Base
+======================================== */
+body,
+.stApp {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-family);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--color-text);
+    font-family: var(--font-family);
+}
+
+/* ========================================
+📦 Layout
+======================================== */
+[data-testid="stSidebar"],
+[data-testid="stSidebarCollapsedControl"] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    [data-testid="stSidebar"] {
+        display: block;
+    }
+
+    [data-testid="stSidebarCollapsedControl"] {
+        display: flex;
+    }
+
+    div:has(> div > div > div > div > div > div > div > .st-key-header_csv_controls_upload) {
+        display: none;
+    }
+}
+
+/* ========================================
+🔘 Inputs & Widgets
+======================================== */
+.stTextInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stNumberInput>div {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+}
+
+.stTextInput input:focus,
+.stTextArea textarea:focus,
+.stNumberInput input:focus {
+    outline: none;
+    border-color: var(--blue-8);
+}
+
+.stDateInput [data-baseweb="input"]:focus-within {
+    border-color: var(--blue-8);
+}
+
+.stSelectbox [data-baseweb="select"] {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+.stSelectbox [data-baseweb="select"]:focus-within {
+    outline: none;
+    border-color: var(--blue-8);
+}
+
+.stSelectbox input,
+.stSelectbox span {
+    color: var(--color-text);
+}
+
+label[data-testid="stWidgetLabel"]>div {
+    width: 100%;
+}
+
+label[data-testid="stWidgetLabel"] p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ========================================
+🧩 Buttons
+======================================== */
+.stButton button {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 0.5rem 1rem;
+    font-weight: bold;
+    transition: background-color var(--transition);
+}
+
+.stButton button:hover {
+    background-color: var(--color-primary-hover);
+}
+
+/* ========================================
+📊 Dataframes
+======================================== */
+.stDataFrame {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    font-family: var(--font-family);
+}
+
+.stDataFrame thead tr {
+    background-color: var(--table-header-bg);
+}
+
+.stDataFrame th {
+    color: var(--table-header-text);
+    font-weight: 600;
+    padding: 0.5rem;
+    border-bottom: 2px solid var(--color-border-strong);
+    text-align: left;
+}
+
+.stDataFrame td {
+    color: var(--color-text);
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.95rem;
+}
+
+.stDataFrame tbody tr:nth-child(even) {
+    background-color: var(--table-row-even);
+}
+
+.stDataFrame tbody tr:nth-child(odd) {
+    background-color: var(--table-row-odd);
+}
+
+.stDataFrame table {
+    background-color: var(--color-surface);
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* ========================================
+ℹ️ Alerts
+======================================== */
+.alert-warning,
+.alert-info {
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
+    color: var(--color-text);
+}
+
+.alert-warning {
+    background-color: var(--color-warning);
+}
+
+.alert-info {
+    background-color: var(--color-info);
+}
+
+/* ========================================
+📈 Charts
+======================================== */
+[class*="st-key-trend_chart"],
+[class*="st-key-bar_chart"] {
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+}
+
+div:has(> div > div > div > .numeric-slider-block),
+div:has(> div > div > div > .pie-chart-block) {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.5rem;
+}
+
+/* ========================================
+📂 Expanders
+======================================== */
+.stExpander summary p,
+.stExpander summary [data-testid="stExpanderIcon"] {
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--color-primary);
+}
+
+.stExpander summary:hover p,
+.stExpander summary:hover [data-testid="stExpanderIcon"] {
+    color: var(--color-primary-hover);
+}
+
+/* ========================================
+🔤 Utils
+======================================== */
+.text-secondary {
+    color: var(--color-text-secondary);
+}

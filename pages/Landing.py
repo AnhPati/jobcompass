@@ -9,7 +9,7 @@ import requests
 # --- Page Configuration ---
 st.set_page_config(
     layout="wide",
-    page_title="Home",
+    page_title="Accueil",
     page_icon="🌍",
 )
 

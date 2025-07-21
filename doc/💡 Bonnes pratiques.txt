@@ -1,0 +1,4 @@
+💡 Bonnes pratiques
+Tu peux aussi directement modifier get_market_offers_remote_path (dans config/settings.py) pour qu’elle renvoie un Path au lieu d'une str. Ça éviterait d’avoir à répéter ce cast à chaque fois.
+
+Souhaites-tu que je te propose cette refacto ?
