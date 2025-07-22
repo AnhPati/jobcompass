@@ -10,6 +10,11 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 def login_form():
     st.title("Streamlit SaaS Starter Login Page")
 
+    # ✅ DEBUG: Voir l'URL actuelle et les query params
+    st.write(f"🔍 **URL actuelle**: {st.get_option('browser.serverAddress')}")
+    st.write(f"🔍 **Query params**: {dict(st.query_params)}")
+    st.write(f"🔍 **Session state keys**: {list(st.session_state.keys())}")
+
     logo = "public/streamlit-logo.svg"
     left_co, cent_co, last_co = st.columns(3)
     with cent_co:
@@ -21,7 +26,13 @@ def login_form():
         providers=["github", "google"]
     )
 
+    # ✅ DEBUG: Voir ce que retourne supabase_login_form
+    st.write(f"🔍 **Session object**: {session}")
+    st.write(f"🔍 **Session type**: {type(session)}")
+
     if session:
+        st.write(f"🔍 **Session keys**: {list(session.keys()) if hasattr(session, 'keys') else 'Not a dict'}")
+
         # 🔐 Extraction robuste du token
         jwt = (
             session.get("access_token") or
@@ -44,4 +55,5 @@ def login_form():
             if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY):
                 print("Logging out.")
     else:
+        st.write("❌ **Aucune session détectée**")
         unauthenticated_menu()
