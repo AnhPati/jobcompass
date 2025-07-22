@@ -13,10 +13,20 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)  # Pour OAuth
 def login_form():
     st.title("Streamlit SaaS Starter Login Page")
 
-    # ✅ DEBUG: Voir l'URL actuelle et les query params
-    with st.expander("🔍 Debug Info (dev only)", expanded=False):
+    # ✅ DEBUG: Voir l'URL actuelle et les query params  
+    with st.expander("🔍 Debug Info (dev only)", expanded=True):
         st.write(f"**Query params**: {dict(st.query_params)}")
         st.write(f"**Session state keys**: {list(st.session_state.keys())}")
+        
+        # Vérifier tous les params possibles
+        all_params = dict(st.query_params)
+        if all_params:
+            st.write("**Paramètres détaillés:**")
+            for key, value in all_params.items():
+                st.write(f"- {key}: {value}")
+        else:
+            st.info("Aucun query parameter détecté")
+            
         try:
             st.write(f"**URL actuelle**: {st.get_option('browser.serverAddress')}")
         except:
