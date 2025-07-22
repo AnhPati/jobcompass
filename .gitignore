@@ -22,6 +22,9 @@ setup.sh
 config.toml
 secrets.toml
 
+# Exception: Streamlit config is safe to commit
+!.streamlit/config.toml
+
 # OS
 .DS_Store
 Thumbs.db
