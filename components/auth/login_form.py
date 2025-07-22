@@ -1,11 +1,3 @@
-# ✅ SOLUTION MINIMALE : Remplacer juste la partie authentification
-
-# Dans requirements.txt, remplacez :
-# streamlit-supabase-auth  ❌
-# Par :
-# st-supabase-connection   ✅
-
-# Dans login_form.py, remplacez la fonction login_form par :
 import streamlit as st
 from st_supabase_connection import SupabaseConnection
 from menu import unauthenticated_menu
@@ -30,10 +22,11 @@ def login_form():
             st.rerun()
         return
 
-    # ✅ Connexion moderne avec st-supabase-connection
+    # ✅ Connexion corrigée avec st-supabase-connection
     try:
         conn = st.connection("supabase", type=SupabaseConnection)
-        supabase = conn._client
+        # CORRECTION : utiliser .client au lieu de ._client
+        supabase = conn.client
     except Exception as e:
         st.error(f"Erreur connexion Supabase : {e}")
         return
@@ -89,12 +82,3 @@ def login_form():
     # Menu non authentifié
     if 'user' not in st.session_state:
         unauthenticated_menu()
-
-# ✅ Le reste de votre template reste IDENTIQUE
-# - Toute la logique métier
-# - La structure des pages  
-# - Les composants UI
-# - La config Stripe
-# - etc.
-
-# Seule la partie authentification change !
