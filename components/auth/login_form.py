@@ -60,7 +60,7 @@ def login_form():
     
     with col1:
         st.markdown(f"""
-        <a href="{github_url}" target="_self" style="
+        <a href="{github_url}" target="_blank" rel="noopener noreferrer" style="
             display: inline-block;
             width: 100%;
             padding: 0.75rem 1rem;
@@ -73,14 +73,16 @@ def login_form():
             font-size: 1rem;
             transition: background-color 0.2s;
             margin-bottom: 0.5rem;
-        " onmouseover="this.style.backgroundColor='#1a1e22'" onmouseout="this.style.backgroundColor='#24292e'">
+        " onmouseover="this.style.backgroundColor='#1a1e22'" onmouseout="this.style.backgroundColor='#24292e'"
+        onclick="window.open(this.href, '_blank', 'width=500,height=600,scrollbars=yes,resizable=yes'); return false;">
             🐙 Se connecter avec GitHub
         </a>
         """, unsafe_allow_html=True)
+        st.caption("📝 Le lien s'ouvre dans une nouvelle fenêtre")
     
     with col2:
         st.markdown(f"""
-        <a href="{google_url}" target="_self" style="
+        <a href="{google_url}" target="_blank" rel="noopener noreferrer" style="
             display: inline-block;
             width: 100%;
             padding: 0.75rem 1rem;
@@ -93,10 +95,12 @@ def login_form():
             font-size: 1rem;
             transition: background-color 0.2s;
             margin-bottom: 0.5rem;
-        " onmouseover="this.style.backgroundColor='#3367d6'" onmouseout="this.style.backgroundColor='#4285f4'">
+        " onmouseover="this.style.backgroundColor='#3367d6'" onmouseout="this.style.backgroundColor='#4285f4'"
+        onclick="window.open(this.href, '_blank', 'width=500,height=600,scrollbars=yes,resizable=yes'); return false;">
             🌐 Se connecter avec Google
         </a>
         """, unsafe_allow_html=True)
+        st.caption("📝 Le lien s'ouvre dans une nouvelle fenêtre")
     
     # ✅ Traitement callback OAuth
     params = dict(st.query_params)
