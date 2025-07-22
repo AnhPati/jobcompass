@@ -1,6 +1,10 @@
 import os
 import streamlit as st
 
+def is_render_environment():
+    """Détecte si on est sur Render"""
+    return os.environ.get("RENDER") is not None or "onrender.com" in os.environ.get("RENDER_EXTERNAL_URL", "")
+
 def get_config(key: str, default: str = None):
     """
     Récupère une config depuis les variables d'environnement (Render) 
@@ -22,3 +26,4 @@ SUPABASE_URL = get_config("SUPABASE_URL")
 SUPABASE_KEY = get_config("SUPABASE_KEY") 
 SUPABASE_BUCKET = get_config("SUPABASE_BUCKET", "users-markets")
 TESTING_MODE = get_config("testing_mode", "false").lower() == "true"
+IS_RENDER = is_render_environment()
