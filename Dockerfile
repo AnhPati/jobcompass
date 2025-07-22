@@ -42,4 +42,4 @@ USER user
 EXPOSE 8080
 
 # Configure to run JobCompass application
-ENTRYPOINT [ "streamlit", "run", "main.py", "--server.port", "8080", "--server.address", "0.0.0.0" ]
+ENTRYPOINT [ "streamlit", "run", "test.py", "--server.port", "8080", "--server.address", "0.0.0.0" ]
