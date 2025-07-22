@@ -14,9 +14,13 @@ def login_form():
     st.title("Streamlit SaaS Starter Login Page")
 
     # ✅ DEBUG: Voir l'URL actuelle et les query params
-    st.write(f"🔍 **URL actuelle**: {st.get_option('browser.serverAddress')}")
-    st.write(f"🔍 **Query params**: {dict(st.query_params)}")
-    st.write(f"🔍 **Session state keys**: {list(st.session_state.keys())}")
+    with st.expander("🔍 Debug Info (dev only)", expanded=False):
+        st.write(f"**Query params**: {dict(st.query_params)}")
+        st.write(f"**Session state keys**: {list(st.session_state.keys())}")
+        try:
+            st.write(f"**URL actuelle**: {st.get_option('browser.serverAddress')}")
+        except:
+            st.write("**URL actuelle**: Non disponible")
 
     logo = "public/streamlit-logo.svg"
     left_co, cent_co, last_co = st.columns(3)
@@ -93,11 +97,14 @@ def login_form():
 
     # ✅ DEBUG: Voir ce que retourne le traitement OAuth
     if session:
-        st.write(f"🔍 **Session object**: {session}")
-        st.write(f"🔍 **Session type**: {type(session)}")
+        with st.expander("🔍 Session Debug (dev only)", expanded=False):
+            st.write(f"**Session object**: {session}")
+            st.write(f"**Session type**: {type(session)}")
 
     if session:
-        st.write(f"🔍 **Session keys**: {list(session.keys()) if hasattr(session, 'keys') else 'Not a dict'}")
+        with st.expander("🔍 Session Details (dev only)", expanded=False):
+            st.write(f"**Session keys**: {list(session.keys()) if hasattr(session, 'keys') else 'Not a dict'}")
+            st.write(f"**User data**: {session.get('user', {})}")
 
         # 🔐 Extraction robuste du token
         jwt = (
@@ -108,6 +115,7 @@ def login_form():
 
         user = session.get("user", {})
         user["jwt"] = jwt  # Injection explicite
+        user["access_token"] = jwt  # Cohérence avec helpers.py
 
         st.session_state['user'] = user
         st.session_state['access_token'] = jwt
