@@ -25,5 +25,11 @@ def get_config(key: str, default: str = None):
 SUPABASE_URL = get_config("SUPABASE_URL")
 SUPABASE_KEY = get_config("SUPABASE_KEY") 
 SUPABASE_BUCKET = get_config("SUPABASE_BUCKET", "users-markets")
-TESTING_MODE = get_config("testing_mode", "false").lower() == "true"
+def get_testing_mode():
+    value = get_config("testing_mode", False)
+    if isinstance(value, bool):
+        return value
+    return str(value).lower() == "true"
+
+TESTING_MODE = get_testing_mode()
 IS_RENDER = is_render_environment()
