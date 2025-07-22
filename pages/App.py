@@ -128,9 +128,9 @@ def app():
     # 🔹 Interface principale
     st.title("JobCompass")
     
-    # 🔍 DEBUG : Sections de debug (à supprimer en production)
-    debug_auth()
-    debug_supabase_auth()
+    # 🔍 DEBUG : Désactivé en production
+    # debug_auth()
+    # debug_supabase_auth()
     
     with st.sidebar:
         # ✅ Informations de synchronisation dans la sidebar avec fragment
