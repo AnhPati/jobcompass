@@ -1,59 +1,100 @@
-import streamlit as st
-from streamlit_supabase_auth import login_form as supabase_login_form, logout_button
-from supabase import create_client, Client
-from menu import menu, unauthenticated_menu
+# ✅ SOLUTION MINIMALE : Remplacer juste la partie authentification
 
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+# Dans requirements.txt, remplacez :
+# streamlit-supabase-auth  ❌
+# Par :
+# st-supabase-connection   ✅
+
+# Dans login_form.py, remplacez la fonction login_form par :
+import streamlit as st
+from st_supabase_connection import SupabaseConnection
+from menu import unauthenticated_menu
 
 def login_form():
     st.title("Streamlit SaaS Starter Login Page")
-
-    # ✅ DEBUG: Voir l'URL actuelle et les query params
-    st.write(f"🔍 **URL actuelle**: {st.get_option('browser.serverAddress')}")
-    st.write(f"🔍 **Query params**: {dict(st.query_params)}")
-    st.write(f"🔍 **Session state keys**: {list(st.session_state.keys())}")
 
     logo = "public/streamlit-logo.svg"
     left_co, cent_co, last_co = st.columns(3)
     with cent_co:
         st.image(logo)
 
-    session = supabase_login_form(
-        url=SUPABASE_URL,
-        apiKey=SUPABASE_KEY,
-        providers=["github", "google"]
-    )
+    # ✅ Vérifier session existante
+    if 'user' in st.session_state and st.session_state.get('access_token'):
+        st.success(f"Connecté : {st.session_state.user.get('email')}")
+        if st.button("Accéder à l'app"):
+            st.switch_page("pages/App.py")
+        if st.button("Se déconnecter"):
+            for key in ['user', 'access_token', 'role']:
+                if key in st.session_state:
+                    del st.session_state[key]
+            st.rerun()
+        return
 
-    # ✅ DEBUG: Voir ce que retourne supabase_login_form
-    st.write(f"🔍 **Session object**: {session}")
-    st.write(f"🔍 **Session type**: {type(session)}")
+    # ✅ Connexion moderne avec st-supabase-connection
+    try:
+        conn = st.connection("supabase", type=SupabaseConnection)
+        supabase = conn._client
+    except Exception as e:
+        st.error(f"Erreur connexion Supabase : {e}")
+        return
 
-    if session:
-        st.write(f"🔍 **Session keys**: {list(session.keys()) if hasattr(session, 'keys') else 'Not a dict'}")
+    # ✅ Interface OAuth propre
+    st.markdown("### Se connecter")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("🐙 GitHub", use_container_width=True, type="primary"):
+            # URL OAuth directe
+            auth_url = f"{st.secrets['SUPABASE_URL']}/auth/v1/authorize?provider=github&redirect_to=https://jobcompass.streamlit.app"
+            st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
+    
+    with col2:
+        if st.button("🌐 Google", use_container_width=True, type="secondary"):
+            # URL OAuth directe  
+            auth_url = f"{st.secrets['SUPABASE_URL']}/auth/v1/authorize?provider=google&redirect_to=https://jobcompass.streamlit.app"
+            st.markdown(f'<meta http-equiv="refresh" content="0; url={auth_url}">', unsafe_allow_html=True)
 
-        # 🔐 Extraction robuste du token
-        jwt = (
-            session.get("access_token") or
-            session.get("accessToken") or
-            session.get("idToken")
-        )
-
-        user = session.get("user", {})
-        user["jwt"] = jwt  # Injection explicite
-
-        st.session_state['user'] = user
-        st.session_state['access_token'] = jwt  # optionnel, mais pratique
-        st.session_state.role = "user"
-
-        st.query_params.login = ["success"]
-        st.switch_page("pages/App.py")
-
-        with st.sidebar:
-            st.markdown(f"**Logged in as: *{user.get('email', 'unknown')}***")
-            if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY):
-                print("Logging out.")
-    else:
-        st.write("❌ **Aucune session détectée**")
+    # ✅ Traitement callback
+    params = dict(st.query_params)
+    access_token = params.get('access_token')
+    refresh_token = params.get('refresh_token')
+    
+    if access_token:
+        try:
+            # Session avec tokens
+            supabase.auth.set_session(access_token, refresh_token or "")
+            user_response = supabase.auth.get_user()
+            
+            if user_response.user:
+                # Session state comme avant
+                st.session_state['user'] = {
+                    'id': user_response.user.id,
+                    'email': user_response.user.email,
+                    'user_metadata': user_response.user.user_metadata,
+                    'jwt': access_token
+                }
+                st.session_state['access_token'] = access_token
+                st.session_state['role'] = "user"
+                
+                # Nettoyer URL et rediriger
+                st.query_params.clear()
+                st.success("✅ Connexion réussie !")
+                st.switch_page("pages/App.py")
+            else:
+                st.error("❌ Erreur utilisateur")
+        except Exception as e:
+            st.error(f"❌ Erreur auth : {e}")
+    
+    # Menu non authentifié
+    if 'user' not in st.session_state:
         unauthenticated_menu()
+
+# ✅ Le reste de votre template reste IDENTIQUE
+# - Toute la logique métier
+# - La structure des pages  
+# - Les composants UI
+# - La config Stripe
+# - etc.
+
+# Seule la partie authentification change !
