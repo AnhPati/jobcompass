@@ -2,10 +2,13 @@
 export STREAMLIT_EMAIL=""
 export STREAMLIT_ANALYTICS_ENABLED="false"
 
-# Force Streamlit to use the PORT environment variable
-export STREAMLIT_SERVER_PORT=$PORT
-export STREAMLIT_SERVER_ADDRESS="0.0.0.0"
-export STREAMLIT_SERVER_HEADLESS="true"
-export STREAMLIT_BROWSER_GATHER_USAGE_STATS="false"
+# Debug: Print PORT value
+echo "PORT environment variable: $PORT"
 
-streamlit run main.py
+# Use explicit CLI args (more reliable than env vars)
+exec streamlit run main.py \
+    --server.port=$PORT \
+    --server.address=0.0.0.0 \
+    --server.headless=true \
+    --server.enableCORS=false \
+    --browser.gatherUsageStats=false

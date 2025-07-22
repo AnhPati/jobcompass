@@ -1,4 +1,10 @@
 import streamlit as st
+# Import config pour Render avant tout
+try:
+    import config_render
+except:
+    pass
+
 from utils.helpers import initialize_session_state, is_user_authenticated
 
 st.set_page_config(page_title="JobCompass", page_icon="🧭", layout="wide")
