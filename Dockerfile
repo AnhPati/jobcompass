@@ -41,5 +41,5 @@ USER user
 # The application must listen on the port defined by the PORT environment variable.
 EXPOSE 8080
 
-# Configure to run TaskWeaver with containerized code execution
-ENTRYPOINT [ "streamlit", "run", "app.py", "--server.port", "8080" ]
+# Configure to run JobCompass application
+ENTRYPOINT [ "streamlit", "run", "main.py", "--server.port", "8080", "--server.address", "0.0.0.0" ]
