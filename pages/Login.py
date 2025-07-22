@@ -6,12 +6,12 @@ from utils.helpers import is_user_authenticated
 if is_user_authenticated():
     st.switch_page("pages/App.py")
 
-st.set_option("client.showSidebarNavigation", False)
 st.set_page_config(
     page_title="Authentification",
     page_icon="🌍",
     layout="centered"
 )
+st.set_option("client.showSidebarNavigation", False)
 
 login_form()
 
