@@ -39,32 +39,54 @@ def login_form():
             st.rerun()
         return
     
-    # ✅ Interface OAuth manuelle avec boutons
+    # ✅ Interface OAuth avec liens directs (compatible Streamlit Cloud)
     st.markdown("### Se connecter")
+    
+    # URLs OAuth directes de Supabase
+    github_url = f"{SUPABASE_URL}/auth/v1/authorize?provider=github&redirect_to=https://jobcompass.streamlit.app"
+    google_url = f"{SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=https://jobcompass.streamlit.app"
     
     col1, col2 = st.columns(2)
     
     with col1:
-        if st.button("🐙 GitHub", use_container_width=True, type="primary"):
-            try:
-                response = supabase.auth.sign_in_with_oauth({
-                    "provider": "github"
-                })
-                if response.url:
-                    st.markdown(f'<meta http-equiv="refresh" content="0; url={response.url}">', unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"Erreur GitHub : {e}")
+        st.markdown(f"""
+        <a href="{github_url}" target="_self" style="
+            display: inline-block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #24292e;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            margin-bottom: 0.5rem;
+        " onmouseover="this.style.backgroundColor='#1a1e22'" onmouseout="this.style.backgroundColor='#24292e'">
+            🐙 Se connecter avec GitHub
+        </a>
+        """, unsafe_allow_html=True)
     
     with col2:
-        if st.button("🌐 Google", use_container_width=True, type="secondary"):
-            try:
-                response = supabase.auth.sign_in_with_oauth({
-                    "provider": "google"
-                })
-                if response.url:
-                    st.markdown(f'<meta http-equiv="refresh" content="0; url={response.url}">', unsafe_allow_html=True)
-            except Exception as e:
-                st.error(f"Erreur Google : {e}")
+        st.markdown(f"""
+        <a href="{google_url}" target="_self" style="
+            display: inline-block;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: #4285f4;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+            margin-bottom: 0.5rem;
+        " onmouseover="this.style.backgroundColor='#3367d6'" onmouseout="this.style.backgroundColor='#4285f4'">
+            🌐 Se connecter avec Google
+        </a>
+        """, unsafe_allow_html=True)
     
     # ✅ Traitement callback OAuth
     params = dict(st.query_params)
