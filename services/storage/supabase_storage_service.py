@@ -3,9 +3,7 @@ import os
 import streamlit as st
 
 # Configuration Supabase
-SUPABASE_URL = st.secrets["SUPABASE_URL"]
-SUPABASE_KEY = st.secrets["SUPABASE_KEY"]
-SUPABASE_BUCKET = st.secrets.get("SUPABASE_BUCKET", "jobcompass-storage")
+from utils.config import SUPABASE_URL, SUPABASE_KEY, SUPABASE_BUCKET
 
 def get_auth_headers():
     """
