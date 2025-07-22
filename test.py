@@ -6,10 +6,17 @@ st.write("🌍 Environment: Render.com")
 
 # Test variables d'environnement
 try:
-    supabase_url = st.secrets.get("SUPABASE_URL", "Not found")
+    # Streamlit sur Render utilise os.environ, pas st.secrets
+    import os
+    supabase_url = os.environ.get("SUPABASE_URL", "Not found")
     st.write(f"🔧 Supabase URL: {supabase_url[:50]}...")
-    st.success("✅ Secrets loaded successfully!")
+    
+    if supabase_url != "Not found":
+        st.success("✅ Environment variables loaded successfully!")
+    else:
+        st.error("❌ SUPABASE_URL not found in environment")
+        
 except Exception as e:
-    st.error(f"❌ Error loading secrets: {e}")
+    st.error(f"❌ Error loading environment: {e}")
 
 st.balloons()
