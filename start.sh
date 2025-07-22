@@ -2,11 +2,10 @@
 export STREAMLIT_EMAIL=""
 export STREAMLIT_ANALYTICS_ENABLED="false"
 
-# Utiliser la config production et forcer les paramètres
-streamlit run main.py \
-  --server.port $PORT \
-  --server.address 0.0.0.0 \
-  --server.headless true \
-  --server.enableCORS false \
-  --browser.gatherUsageStats false \
-  --server.enableXsrfProtection false
+# Force Streamlit to use the PORT environment variable
+export STREAMLIT_SERVER_PORT=$PORT
+export STREAMLIT_SERVER_ADDRESS="0.0.0.0"
+export STREAMLIT_SERVER_HEADLESS="true"
+export STREAMLIT_BROWSER_GATHER_USAGE_STATS="false"
+
+streamlit run main.py
