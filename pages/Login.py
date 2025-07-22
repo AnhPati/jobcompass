@@ -1,10 +1,4 @@
 import streamlit as st
-from components.auth.login_form import login_form
-from utils.helpers import is_user_authenticated
-
-# Si l'utilisateur est déjà connecté, le rediriger vers l'application
-if is_user_authenticated():
-    st.switch_page("pages/App.py")
 
 st.set_page_config(
     page_title="Authentification",
@@ -12,6 +6,14 @@ st.set_page_config(
     layout="centered"
 )
 st.set_option("client.showSidebarNavigation", False)
+
+# Imports après set_page_config pour éviter l'exécution de commandes Streamlit
+from components.auth.login_form import login_form
+from utils.helpers import is_user_authenticated
+
+# Si l'utilisateur est déjà connecté, le rediriger vers l'application
+if is_user_authenticated():
+    st.switch_page("pages/App.py")
 
 login_form()
 
