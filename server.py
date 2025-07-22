@@ -21,9 +21,8 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 # Initialization with Supabase credentials
-# Utilise st.secrets au lieu de os.getenv pour la cohérence
-SUPABASE_URL = st.secrets.get("SUPABASE_URL") or os.getenv("SUPABASE_URL")
-SUPABASE_KEY = st.secrets.get("SUPABASE_KEY") or os.getenv("SUPABASE_KEY")
+# Utilise le système de config unifié
+from utils.config import SUPABASE_URL, SUPABASE_KEY
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 stripe_product_id_starter = ""
