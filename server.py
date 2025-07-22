@@ -1,7 +1,18 @@
 import streamlit as st
 from supabase import create_client, Client
-from streamlit_supabase_auth import login_form, logout_button
+# Pas d'import login_form car c'est une fonction, pas une classe
 import stripe
+
+def logout_button(text="Se déconnecter"):
+    """Fonction de déconnexion compatible avec l'ancienne API"""
+    if st.button(text):
+        # Nettoyer le session_state
+        for key in ['user', 'access_token', 'role']:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.rerun()
+        return True
+    return False
 import streamlit_shadcn_ui as ui
 from datetime import datetime, timedelta
 from streamlit.proto.Skeleton_pb2 import Skeleton as SkeletonProto
@@ -10,8 +21,9 @@ from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
 # Initialization with Supabase credentials
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+# Utilise st.secrets au lieu de os.getenv pour la cohérence
+SUPABASE_URL = st.secrets.get("SUPABASE_URL") or os.getenv("SUPABASE_URL")
+SUPABASE_KEY = st.secrets.get("SUPABASE_KEY") or os.getenv("SUPABASE_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 stripe_product_id_starter = ""
