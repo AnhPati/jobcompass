@@ -19,6 +19,17 @@ def login_form():
         providers=["github", "google"]
     )
 
+    # Debug: Vérifier les paramètres URL pour le callback OAuth
+    query_params = st.query_params
+    if query_params:
+        st.info(f"🔍 Debug - Paramètres URL: {dict(query_params)}")
+    
+    # Debug: Afficher l'état de la session
+    if session:
+        st.success(f"🔍 Debug - Session trouvée: {type(session)}")
+    else:
+        st.warning("🔍 Debug - Aucune session détectée")
+
     if session:
         # 🔐 Gestion de session selon le template original
         user = session.get("user", {})
