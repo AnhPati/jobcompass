@@ -8,19 +8,7 @@ enableXsrfProtection = true
 [browser]
 gatherUsageStats = false
 
-[auth]
-redirect_uri = "http://localhost:8501/oauth2callback"
-cookie_secret = "your-local-cookie-secret-change-this-in-production"
-
-[auth.google]
-client_id = "your-google-client-id"
-client_secret = "your-google-client-secret"
-server_metadata_url = "https://accounts.google.com/.well-known/openid-configuration"
-
-[auth.github]
-client_id = "your-github-client-id"
-client_secret = "your-github-client-secret"
-server_metadata_url = "https://token.actions.githubusercontent.com/.well-known/openid_configuration"
+# Auth config moved to secrets.toml for security
 
 [theme]
 # Primary accent color for interactive elements.

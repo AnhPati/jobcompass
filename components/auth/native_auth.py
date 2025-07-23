@@ -3,7 +3,8 @@ import streamlit as st
 def native_login_form():
     """Formulaire de connexion avec l'authentification native Streamlit"""
     
-    if not st.user.is_logged_in:
+    # Vérification temporaire - st.user pas encore disponible
+    if not hasattr(st, 'user') or not st.user.is_logged_in:
         # Interface de connexion
         st.title("🧭 JobCompass - Connexion")
         

@@ -12,8 +12,8 @@ def initialize_session_state():
         st.session_state.role = None
 
 def is_user_authenticated() -> bool:
-    # Utilise l'auth native Streamlit
-    return st.user.is_logged_in
+    # Fallback vers session state en attendant st.user
+    return st.session_state.get("access_token") is not None
 
 def get_user_jwt() -> str | None:
     # Vérifie dans access_token (session directe)
