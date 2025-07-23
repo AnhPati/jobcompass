@@ -6,7 +6,7 @@ streamlit-chat==0.1.1
 streamlit-folium==0.18.0
 streamlit-shadcn-ui==0.1.18
 st-supabase-connection==2.1.0
-streamlit-supabase-auth>=0.1.0
+# streamlit-supabase-auth>=0.1.0  # Remplacé par auth native Streamlit
 supabase==2.4.1
 stripe==8.8.0
 python-dotenv
