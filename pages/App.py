@@ -30,15 +30,18 @@ if not is_user_authenticated():
     st.switch_page("pages/Login.py")
 
 # 🚪 Bouton de déconnexion en haut de page
+from streamlit_supabase_auth import logout_button
+from utils.config import SUPABASE_URL, SUPABASE_KEY
+
 col1, col2 = st.columns([4, 1])
 with col2:
-    if st.button("🚪 Déconnexion", type="secondary"):
-        # Nettoyer la session
+    # Utilise le logout_button de streamlit-supabase-auth
+    if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY, text="🔒 Déconnexion"):
+        # Nettoyer la session locale aussi
         for key in ['user', 'access_token', 'role']:
             if key in st.session_state:
                 del st.session_state[key]
-        st.success("Déconnecté !")
-        st.switch_page("pages/Login.py")
+        st.rerun()
 
 @st.fragment
 def sync_status_fragment(user_id: str):
