@@ -29,6 +29,17 @@ inject_theme()
 if not is_user_authenticated():
     st.switch_page("pages/Login.py")
 
+# 🚪 Bouton de déconnexion en haut de page
+col1, col2 = st.columns([4, 1])
+with col2:
+    if st.button("🚪 Déconnexion", type="secondary"):
+        # Nettoyer la session
+        for key in ['user', 'access_token', 'role']:
+            if key in st.session_state:
+                del st.session_state[key]
+        st.success("Déconnecté !")
+        st.switch_page("pages/Login.py")
+
 @st.fragment
 def sync_status_fragment(user_id: str):
     """Fragment pour le statut et contrôles de synchronisation"""
