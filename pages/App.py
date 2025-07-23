@@ -35,8 +35,8 @@ from utils.config import SUPABASE_URL, SUPABASE_KEY
 
 col1, col2 = st.columns([4, 1])
 with col2:
-    # Utilise le logout_button de streamlit-supabase-auth
-    if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY, text="🔒 Déconnexion"):
+    # Utilise le logout_button de streamlit-supabase-auth (sans paramètre text)
+    if logout_button(url=SUPABASE_URL, apiKey=SUPABASE_KEY):
         # Nettoyer la session locale aussi
         for key in ['user', 'access_token', 'role']:
             if key in st.session_state:
