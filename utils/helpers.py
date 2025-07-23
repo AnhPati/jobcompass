@@ -12,8 +12,8 @@ def initialize_session_state():
         st.session_state.role = None
 
 def is_user_authenticated() -> bool:
-    # Fallback vers session state en attendant st.user
-    return st.session_state.get("access_token") is not None
+    jwt = get_user_jwt()
+    return jwt is not None and jwt != ""
 
 def get_user_jwt() -> str | None:
     # Vérifie dans access_token (session directe)
